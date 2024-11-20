@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple websocket chat</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="chat-wrapper">
+        <div class="chat-header">
+            <p id="chat-code"></p>
+            <p class="user-list-title">Connected users : </p>
+            <div class="user-list" id="user-list">
+            </div>
+        </div>
+        <div class="chat-box" id="chat-box">
+        </div>
+        <div class="chat-input">
+            <input type="text" id="chat-input-text" placeholder="Type a message">
+        </div>
+    </div>
+    <script src="js/chatFunctions.js"></script>
+    <script>
+        const socket = new WebSocket('ws://localhost:8080');
+        const urlParams = new URLSearchParams(window.location.search);
+        const roomCode = urlParams.get('room');
+        const chatInputText = document.getElementById("chat-input-text");
+        
+        const username = prompt("Insert your alias");
+
+        if (roomCode == null || roomCode == '') {
+            window.location.replace('/')
+        } else {
+            // set chat code element
+            document.getElementById('chat-code').innerText = `Chat code : ${roomCode}`
+            socket.onopen = function(event) {
+                socket.send(JSON.stringify({ type: 'subscribe', room: roomCode, username: username })); // subscribe to chat room
+                socket.send(JSON.stringify({ type: 'user_info', room: roomCode })); // requesting user list on this chat room
+            }
+        }
+
+        // publish chat to server
+        chatInputText.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && chatInputText.value != null) {
+                socket.send(JSON.stringify({ 
+                    type: 'publish', 
+                    room: roomCode, 
+                    payload: {
+                        message: chatInputText.value,
+                        username: username
+                    }
+                }))
+                chatInputText.value = null
+            }
+        });
+
+        // receiving message from server
+        socket.onmessage = function(event) {
+            const data = JSON.parse(event.data);
+            if (data.type == 'chat') { // chat message
+                createChatBubble(data.payload.username, data.payload.message)
+            }
+
+            else if (data.type == 'user_info') { // user list info
+                const usernames = data.payload.connectedUsers
+                updateConnectedUsers(usernames)
+            }
+
+            else if (data.type == 'in_out_user_info') { // user in/out notification 
+                createChatBubbleInfo(data.payload.username, data.payload.status)
+            }
+        }
+
+    </script>
+</body>
+
+</html>

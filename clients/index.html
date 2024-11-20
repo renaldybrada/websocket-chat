@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple websocket chat</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="title-wrapper">
+        <h1 class="title">Simple anonymous webchat using websocket.</h1>
+        <p class="subtitle">No database. No unnecessary logging. Full privacy. Open source.</p>
+        <div class="connect-selection">
+            <button id="create-chat-btn">+ New room</button>
+            <input type="text" id="chat-code" placeholder="Or insert chat room code">
+            <button id="join-chat-btn" disabled>Join</button>
+        </div>
+    </div>
+    <script src="js/chatFunctions.js"></script>
+    <script>
+        const createChatBtn = document.getElementById('create-chat-btn')
+        const chatCodeInput = document.getElementById('chat-code')
+        const joinChatBtn = document.getElementById('join-chat-btn')
+
+        chatCodeInput.addEventListener('input', () => {
+            if (chatCodeInput.value == '') {
+                joinChatBtn.setAttribute('disabled', 'disabled')
+                joinChatBtn.classList.remove('btn-active')
+            } else {
+                joinChatBtn.removeAttribute('disabled')
+                joinChatBtn.classList.add('btn-active')
+            }
+        })
+
+        createChatBtn.addEventListener('click', () => {
+            const roomCode = randomCode()
+            window.location.replace(`/chat.html?room=${roomCode}`)
+        })
+
+        joinChatBtn.addEventListener('click', () => {
+            const roomCode = chatCodeInput.value
+            window.location.replace(`/chat.html?room=${roomCode}`)
+        })
+        
+    </script>
+</body>
+</html>
