@@ -12,14 +12,14 @@
         <p class="subtitle">No database. No unnecessary logging. Full privacy. Open source.</p>
         <div class="connect-selection">
             <button id="create-chat-btn">+ New room</button>
-            <input type="text" id="chat-code" placeholder="Or insert chat room code">
+            <input type="text" id="chat-code-input" placeholder="Or insert chat room code">
             <button id="join-chat-btn" disabled>Join</button>
         </div>
     </div>
     <script src="js/chatFunctions.js"></script>
     <script>
         const createChatBtn = document.getElementById('create-chat-btn')
-        const chatCodeInput = document.getElementById('chat-code')
+        const chatCodeInput = document.getElementById('chat-code-input')
         const joinChatBtn = document.getElementById('join-chat-btn')
 
         chatCodeInput.addEventListener('input', () => {
