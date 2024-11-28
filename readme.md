@@ -35,6 +35,10 @@ live-server
 ## Screen shots
 ![image](https://github.com/user-attachments/assets/7e9f0862-3805-44e4-8fea-51513117bdd5)
 
+### Improve UI and add timestamp 11/28/2024
+![image](https://github.com/user-attachments/assets/24a66012-3825-4d09-98d8-914ade7d8aeb)
+
+
 ## Demo
 Enjoy the demo here https://ws.renaldybrada.com/
 
