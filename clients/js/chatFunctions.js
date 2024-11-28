@@ -12,21 +12,31 @@ function randomCode() {
     return randomAlphabets.join('');
 }
 
-function createChatBubble(username, message) {
+function createChatBubble(username, message, is_self) {
     const chatBox = document.getElementById("chat-box");
     let chatBubble = document.createElement('div')
     chatBubble.classList.add('chat-bubble')
+    if (is_self) {
+        chatBubble.classList.add('chat-bubble--right')
+    }
+
     let chatUsername = document.createElement('div')
     chatUsername.classList.add('chat-user')
     chatUsername.innerText = username
     let chatMessage = document.createElement('div')
     chatMessage.classList.add('chat-msg')
     chatMessage.innerText = message
+    let currentTime = new Date()
+    let chatTime = document.createElement('div')
+    chatTime.classList.add('chat-time')
+    chatTime.innerHTML = `${currentTime.getHours()}:${currentTime.getMinutes()}`
 
     chatBubble.appendChild(chatUsername)
     chatBubble.appendChild(chatMessage)
+    chatBubble.appendChild(chatTime)
 
     chatBox.appendChild(chatBubble)
+    chatBox.scrollTop = chatBox.scrollHeight
 }
 
 function updateConnectedUsers(usernames) {

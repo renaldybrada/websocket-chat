@@ -59,7 +59,11 @@
         socket.onmessage = function(event) {
             const data = JSON.parse(event.data);
             if (data.type == 'chat') { // chat message
-                createChatBubble(data.payload.username, data.payload.message)
+                is_self = false;
+                if (data.payload.username == username) {
+                    is_self = true;
+                }
+                createChatBubble(data.payload.username, data.payload.message, is_self)
             }
 
             else if (data.type == 'user_info') { // user list info

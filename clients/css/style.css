@@ -98,14 +98,32 @@ html {
 .chat-box {
     padding: .5rem;
     border: .1rem solid;
-    min-height: 60vh;
+    min-height: 70vh;
+    max-height: 70vh;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
 
-.chat-box .chat-bubble {
+.chat-bubble {
+    position: relative;
+    width: fit-content;
+    max-width: 50ch;
     margin-bottom: 1rem;
     padding: .1rem 1rem;
     background-color: aliceblue;
     border-radius: 1rem;
+    display: flex;
+    flex-direction: column;
+}
+
+.chat-bubble--right {
+    align-self: flex-end;
+    background-color: cornsilk;
+}
+
+.chat-bubble--right > .chat-user {
+    align-self: flex-start;
 }
 
 .chat-box .chat-bubble p{
@@ -114,6 +132,12 @@ html {
 
 .chat-box .chat-bubble .chat-user{
     font-size: .8rem;
+    font-weight: 600;
+}
+
+.chat-time {
+    font-size: .6rem;
+    align-self: flex-end;
 }
 
 .chat-input {
